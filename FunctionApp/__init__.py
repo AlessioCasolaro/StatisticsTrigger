@@ -1,3 +1,4 @@
+from ast import Assert
 from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient, __version__
 from re import T
 from bson import json_util, ObjectId
@@ -15,16 +16,20 @@ plt.rcdefaults()
 def main(req: func.HttpRequest) -> func.HttpResponse:
     load_dotenv()
     logging.info('Python HTTP trigger function processed a request.')
-    print("Azure Blob Storage v" + __version__ + " - Python quickstart sample")
+    
     params = req.params.get('name')
     print(params)
-    query(params)  
+    data = query()
+    arrx,arry = graph(data,params)
+    print()  
+    writeToJs('chart-area.js',arrx,arry)
+    saveToBlob('chart-area.js')
     #with open("Assets/graph.png", 'rb') as f:
     #    mimetype = mimetypes.guess_type("Assets/graph.png")
     #    return func.HttpResponse(f.read(), mimetype=mimetype[0])
     return func.HttpResponse("", status_code=200)
 
-def query(param):
+def query():
 
     uri = os.getenv('URI')
     client = pymongo.MongoClient(uri)
@@ -52,6 +57,11 @@ def query(param):
     # return items
     data = json.loads(json_util.dumps(items))
     
+    client.close()
+    return data
+    
+    
+def graph(data,params):
     #Prendo i dati che mi servono        
     title = []
     qty = []
@@ -76,22 +86,29 @@ def query(param):
                 arry.append(q)
     print(arrx,arry)
     
-    #Salvo il file 
+    #Salvo il file PER TESTING 
     with open('data.json', 'w') as f:
         json.dump(data, f)
-
     
-    client.close()
+    return arrx,arry
+   
 
+def writeToJs(jsfile,arrx,arry):
+    with open(jsfile) as f:
+        lines = f.readlines()
+    string = 'var x = '+(''.join(str(arrx)))+';'+'var y = '+(''.join(str(arry)))+';\n'
+    lines[0] = string
+   
 
-def graph(qty,price):
+    with open(jsfile, "w") as f:
+        f.writelines(lines)
+        
+def saveToBlob(jsfile):               
+    connect_str = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
+    blob_service_client = BlobServiceClient.from_connection_string(connect_str)
     
-    print(qty,price)
+    blob_client = blob_service_client.get_blob_client(container=os.getenv('AZURE_STORAGE_CONTAINER'), blob=jsfile)
     
-    plt.plot(qty,price)
-    plt.ylabel('some numbers')
-    plt.show()
-    
-
-    plt.savefig('Assets/graph.png')
+    with open(jsfile, "rb") as data:
+        blob_client.upload_blob(data,overwrite=True)
     
