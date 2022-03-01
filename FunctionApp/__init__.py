@@ -22,7 +22,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     data = query()
     #if not params:
   
-    #arrx,arry = graph(data)
+    arrx,arry = graph(data)
    
     #writeToJs('chart-area.js',arrx,arry)
 
