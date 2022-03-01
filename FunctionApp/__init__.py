@@ -92,8 +92,8 @@ def graph(data):
     print(arrx,arry)
     
     #Salvo il file PER TESTING 
-    with open('data.json', 'w') as f:
-        json.dump(data, f)
+    #with open('data.json', 'w') as f:
+    #    json.dump(data, f)
     
     return arrx,arry
    
