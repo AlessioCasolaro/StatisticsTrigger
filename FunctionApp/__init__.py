@@ -19,20 +19,20 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     
     #params = req.params.get('name')
     #print(params)
+    print("Qui1")
     data = query()
     #if not params:
+    print("Qui2")
     arrx,arry = graph(data)
+    print("Qui3")
     writeToJs('chart-area.js',arrx,arry)
+    print("Qui4")
     saveToBlob('chart-area.js')
     #else:
         #arrx,arry = graph2(data,params)
         #writeToJs('chart-bar.js',arrx,arry)
         #saveToBlob('chart-bar.js')
-   
-   
-    #with open("Assets/graph.png", 'rb') as f:
-    #    mimetype = mimetypes.guess_type("Assets/graph.png")
-    #    return func.HttpResponse(f.read(), mimetype=mimetype[0])
+
     return func.HttpResponse("", status_code=200)
 
 def query():
