@@ -19,15 +19,14 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     
     #params = req.params.get('name')
     #print(params)
-    print("Qui1")
     data = query()
     #if not params:
-    print("Qui2")
-    arrx,arry = graph(data)
-    print("Qui3")
-    writeToJs('chart-area.js',arrx,arry)
-    print("Qui4")
-    saveToBlob('chart-area.js')
+  
+    #arrx,arry = graph(data)
+   
+    #writeToJs('chart-area.js',arrx,arry)
+
+    #saveToBlob('chart-area.js')
     #else:
         #arrx,arry = graph2(data,params)
         #writeToJs('chart-bar.js',arrx,arry)
