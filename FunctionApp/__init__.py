@@ -17,17 +17,17 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     load_dotenv()
     logging.info('Python HTTP trigger function processed a request.')
     
-    params = req.params.get('name')
-    print(params)
+    #params = req.params.get('name')
+    #print(params)
     data = query()
-    if not params:
-        arrx,arry = graph(data,params)
-        writeToJs('chart-area.js',arrx,arry)
-        saveToBlob('chart-area.js')
-    else:
-        arrx,arry = graph2(data,params)
-        writeToJs('chart-bar.js',arrx,arry)
-        saveToBlob('chart-bar.js')
+    #if not params:
+    arrx,arry = graph(data)
+    writeToJs('chart-area.js',arrx,arry)
+    saveToBlob('chart-area.js')
+    #else:
+        #arrx,arry = graph2(data,params)
+        #writeToJs('chart-bar.js',arrx,arry)
+        #saveToBlob('chart-bar.js')
    
    
     #with open("Assets/graph.png", 'rb') as f:
@@ -67,7 +67,7 @@ def query():
     return data
     
     
-def graph(data,params):
+def graph(data):
     #Prendo i dati che mi servono        
     title = []
     qty = []
