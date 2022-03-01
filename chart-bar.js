@@ -1,24 +1,17 @@
-var x = ['Drink alla cannella', 'Drink alla sbunra', 'Dosha Kpaha', 'Rilassante piacere', 'Abbraccio vellutato', 'Dosha Vata'];var y = [1, 1, 4, 2, 2, 11];
+var x = ['28-2-2022'];var y = [8];
 Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#292b2c';
 
-var ctx = document.getElementById("myAreaChart");
+// Bar Chart Example
+var ctx = document.getElementById("myBarChart");
 var myLineChart = new Chart(ctx, {
-  type: 'line',
+  type: 'bar',
   data: {
-    labels: x ,
+    labels: x,
     datasets: [{
       label: "Acquistati",
-      lineTension: 0.3,
-      backgroundColor: "rgba(2,117,216,0.2)",
+      backgroundColor: "rgba(2,117,216,1)",
       borderColor: "rgba(2,117,216,1)",
-      pointRadius: 5,
-      pointBackgroundColor: "rgba(2,117,216,1)",
-      pointBorderColor: "rgba(255,255,255,0.8)",
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: "rgba(2,117,216,1)",
-      pointHitRadius: 50,
-      pointBorderWidth: 2,
       data: y,
     }],
   },
@@ -26,13 +19,13 @@ var myLineChart = new Chart(ctx, {
     scales: {
       xAxes: [{
         time: {
-          unit: 'date'
+          unit: 'month'
         },
         gridLines: {
           display: false
         },
         ticks: {
-          maxTicksLimit: 7
+          maxTicksLimit: 6
         }
       }],
       yAxes: [{
@@ -42,7 +35,7 @@ var myLineChart = new Chart(ctx, {
           maxTicksLimit: 5
         },
         gridLines: {
-          color: "rgba(0, 0, 0, .125)",
+          display: true
         }
       }],
     },

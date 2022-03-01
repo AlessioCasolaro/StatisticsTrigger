@@ -20,10 +20,16 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     params = req.params.get('name')
     print(params)
     data = query()
-    arrx,arry = graph(data,params)
-    print()  
-    writeToJs('chart-area.js',arrx,arry)
-    saveToBlob('chart-area.js')
+    if not params:
+        arrx,arry = graph(data,params)
+        writeToJs('chart-area.js',arrx,arry)
+        saveToBlob('chart-area.js')
+    else:
+        arrx,arry = graph2(data,params)
+        writeToJs('chart-bar.js',arrx,arry)
+        saveToBlob('chart-bar.js')
+   
+   
     #with open("Assets/graph.png", 'rb') as f:
     #    mimetype = mimetypes.guess_type("Assets/graph.png")
     #    return func.HttpResponse(f.read(), mimetype=mimetype[0])
@@ -92,6 +98,39 @@ def graph(data,params):
     
     return arrx,arry
    
+def graph2(data,params):
+    #Prendo i dati che mi servono        
+    title = []
+    qty = []
+    date = []
+    for d in data:
+        
+        c = d['cart']
+        for sd in c['items'].values():
+            if sd['item']['title'] == params:
+                date.append(d['date'])
+                qty.append(sd['qty'])   
+    print(qty,date)
+
+    #Filtro quelli uguali
+    current = 0
+    arrx = []
+    arry=[]
+    for d,q in zip(date,qty):
+            current+=1
+            if d in arrx:
+                index = arrx.index(d)
+                arry[index]= arry[index]+qty[current-1]     
+            else:
+                arrx.append(d)
+                arry.append(q)
+    print(arrx,arry)
+    
+    #Salvo il file PER TESTING 
+    with open('data.json', 'w') as f:
+        json.dump(data, f)
+    
+    return arrx,arry
 
 def writeToJs(jsfile,arrx,arry):
     with open(jsfile) as f:
