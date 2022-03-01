@@ -24,7 +24,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
   
     arrx,arry = graph(data)
    
-    writeToJs('chart-area.js',arrx,arry)
+    writeToJs('FunctionApp/assets/chart-area.js',arrx,arry)
 
     #saveToBlob('chart-area.js')
     #else:
