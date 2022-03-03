@@ -34,8 +34,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
  
    
     context = {
-        'x': str(arrx),
-        'y': str(arry),
+        'x': arrx,
+        'y': arry,
     }
     data = json.dumps(context, indent=4, sort_keys=True, default=str)
   
