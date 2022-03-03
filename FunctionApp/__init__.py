@@ -9,7 +9,7 @@ import pymongo
 import logging
 import azure.functions as func
 import matplotlib.pyplot as plt
-
+import tempfile
 
 plt.rcdefaults()
 
@@ -23,16 +23,23 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     #if not params:
   
     arrx,arry = graph(data)
-   
-    writeToJs('FunctionApp/assets/chart-area.js',arrx,arry)
+    #getFromBlob('chart-area.js')
+    #writeToJs('FunctionApp/assets/chart-area.js',arrx,arry)
 
     #saveToBlob('chart-area.js')
     #else:
         #arrx,arry = graph2(data,params)
         #writeToJs('chart-bar.js',arrx,arry)
         #saveToBlob('chart-bar.js')
-
-    return func.HttpResponse("", status_code=200)
+ 
+   
+    context = {
+        'x': str(arrx),
+        'y': str(arry),
+    }
+    data = json.dumps(context, indent=4, sort_keys=True, default=str)
+  
+    return func.HttpResponse(data, status_code=200)
 
 def query():
 
@@ -130,6 +137,15 @@ def graph2(data,params):
         json.dump(data, f)
     
     return arrx,arry
+def getFromBlob(jsfile):
+    connect_str = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
+    blob_service_client = BlobServiceClient.from_connection_string(connect_str)
+    
+    blob_client = blob_service_client.get_blob_client(container=os.getenv('AZURE_STORAGE_CONTAINER'),blob=jsfile)
+    
+    tempFilePath = tempfile.gettempdir()
+    with open(tempFilePath, "wb") as download_file:
+        download_file.write(blob_client.download_blob().readall())
 
 def writeToJs(jsfile,arrx,arry):
     with open(jsfile) as f:

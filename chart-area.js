@@ -1,4 +1,8 @@
-var x = ['Drink alla cannella', 'Drink alla sbunra', 'Dosha Kpaha', 'Rilassante piacere', 'Abbraccio vellutato', 'Dosha Vata'];var y = [1, 1, 4, 2, 2, 11];
+$.getJSON('http://localhost:7071/api/FunctionApp', function(dataResponse) {
+    // JSON result in `data` variable
+});
+var x = dataResponse['x']
+var y = dataResponse['y']
 Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#292b2c';
 
