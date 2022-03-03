@@ -130,12 +130,9 @@ def graph2(data,params):
                 arrx.append(d)
                 arry.append(q)
     print(arrx,arry)
-    
-    #Salvo il file PER TESTING 
-    with open('data.json', 'w') as f:
-        json.dump(data, f)
-    
+
     return arrx,arry
+
 def getFromBlob(jsfile):
     connect_str = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
     blob_service_client = BlobServiceClient.from_connection_string(connect_str)
