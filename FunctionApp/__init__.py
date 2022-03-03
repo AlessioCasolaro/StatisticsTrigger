@@ -17,18 +17,17 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     load_dotenv()
     logging.info('Python HTTP trigger function processed a request.')
     
-    #params = req.params.get('name')
-    #print(params)
+    params = req.params.get('name')
+    print(params)
     data = query()
-    #if not params:
-  
-    arrx,arry = graph(data)
+    if not params:
+        arrx,arry = graph(data)
     #getFromBlob('chart-area.js')
     #writeToJs('FunctionApp/assets/chart-area.js',arrx,arry)
 
     #saveToBlob('chart-area.js')
-    #else:
-        #arrx,arry = graph2(data,params)
+    else:
+        arrx,arry = graph2(data,params)
         #writeToJs('chart-bar.js',arrx,arry)
         #saveToBlob('chart-bar.js')
  
