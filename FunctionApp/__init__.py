@@ -1,7 +1,5 @@
-from ast import Assert
-from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient, __version__
 from re import T
-from bson import json_util, ObjectId
+from bson import json_util
 import json
 from dotenv import load_dotenv
 import os
@@ -9,7 +7,7 @@ import pymongo
 import logging
 import azure.functions as func
 import matplotlib.pyplot as plt
-import tempfile
+
 
 plt.rcdefaults()
 
@@ -22,16 +20,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     data = query()
     if not params:
         arrx,arry = graph(data)
-    #getFromBlob('chart-area.js')
-    #writeToJs('FunctionApp/assets/chart-area.js',arrx,arry)
-
-    #saveToBlob('chart-area.js')
     else:
         arrx,arry = graph2(data,params)
-        #writeToJs('chart-bar.js',arrx,arry)
-        #saveToBlob('chart-bar.js')
- 
-   
+
     context = {
         'x': arrx,
         'y': arry,
@@ -97,10 +88,6 @@ def graph(data):
                 arry.append(q)
     print(arrx,arry)
     
-    #Salvo il file PER TESTING 
-    #with open('data.json', 'w') as f:
-    #    json.dump(data, f)
-    
     return arrx,arry
    
 def graph2(data,params):
@@ -133,32 +120,3 @@ def graph2(data,params):
 
     return arrx,arry
 
-def getFromBlob(jsfile):
-    connect_str = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
-    blob_service_client = BlobServiceClient.from_connection_string(connect_str)
-    
-    blob_client = blob_service_client.get_blob_client(container=os.getenv('AZURE_STORAGE_CONTAINER'),blob=jsfile)
-    
-    tempFilePath = tempfile.gettempdir()
-    with open(tempFilePath, "wb") as download_file:
-        download_file.write(blob_client.download_blob().readall())
-
-def writeToJs(jsfile,arrx,arry):
-    with open(jsfile) as f:
-        lines = f.readlines()
-    string = 'var x = '+(''.join(str(arrx)))+';'+'var y = '+(''.join(str(arry)))+';\n'
-    lines[0] = string
-   
-
-    with open(jsfile, "w") as f:
-        f.writelines(lines)
-        
-def saveToBlob(jsfile):               
-    connect_str = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
-    blob_service_client = BlobServiceClient.from_connection_string(connect_str)
-    
-    blob_client = blob_service_client.get_blob_client(container=os.getenv('AZURE_STORAGE_CONTAINER'), blob=jsfile)
-    
-    with open(jsfile, "rb") as data:
-        blob_client.upload_blob(data,overwrite=True)
-    
