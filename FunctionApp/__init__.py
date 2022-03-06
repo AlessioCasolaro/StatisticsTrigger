@@ -165,7 +165,8 @@ def graph4(data):
 
     for d in data:
         c = d['cart']
-        extras.append(d['extra'])
+        if 'extra' in d:
+            extras.append(d['extra'])
     print(extras)
 
     #Filtro quelli uguali
@@ -179,6 +180,7 @@ def graph4(data):
                 arry[index]= arry[index]+1
             else:
                 arrx.append(t)
+                arry.append(1)
     print(arrx,arry)
 
     return arrx,arry
