@@ -23,20 +23,19 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     if user == "user":
         arrx,arry = graph3(data)
         if params:
-             arr2x,arr2y = graph2(data,params)
+            arr2x,arr2y = graph2(data,params)
         else:
             arr2x = 0
             arr2y = 0
     elif user == "admin":
-        print("Graph Admin")
         arrx,arry = graph(data)
         arr2x,arr2y = graph3(data)
-  
+    
     context = {
         'x': arrx,
         'y': arry,
         'x2': arr2x,
-        'y2': arr2y,
+        'y2': arr2y
     }
     data = json.dumps(context, indent=4, sort_keys=True, default=str)
   
@@ -142,17 +141,17 @@ def graph3(data):
             prices.append(sd['item']['price'])
             dates.append(d['date'])
     print(prices,dates)
-    integer_map = map(int,prices)
-    integer_prices = list(integer_map)
+    float_map = map(int,prices)
+    float_prices = list(float_map)
     #Filtro quelli uguali
     current = 0
     arrx = []
     arry=[]
-    for t,q in zip(dates,integer_prices):
+    for t,q in zip(dates,float_prices):
             current+=1
             if t in arrx:
                 index = arrx.index(t)
-                arry[index]= arry[index]+integer_prices[current-1]
+                arry[index]= arry[index]+float_prices[current-1]
             else:
                 arrx.append(t)
                 arry.append(q)
