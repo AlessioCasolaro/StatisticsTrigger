@@ -19,13 +19,26 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     print(params)
     data = query()
     if not params:
+        print("Graph3")
+        arrx,arry = graph3(data)
+        arr2x = 0
+        arr2y = 0
+    elif params == "admin":
+        print("Graph Admin")
         arrx,arry = graph(data)
+        arr2x,arr2y = graph4(data)
     else:
+        print("Graph2")
         arrx,arry = graph2(data,params)
+        arr2x = 0
+        arr2y = 0
+        
 
     context = {
         'x': arrx,
         'y': arry,
+        'x2': arr2x,
+        'y2': arr2y,
     }
     data = json.dumps(context, indent=4, sort_keys=True, default=str)
   
@@ -96,7 +109,6 @@ def graph2(data,params):
     qty = []
     date = []
     for d in data:
-        
         c = d['cart']
         for sd in c['items'].values():
             if sd['item']['title'] == params:
@@ -116,7 +128,60 @@ def graph2(data,params):
             else:
                 arrx.append(d)
                 arry.append(q)
-    print(arrx,arry)
+    
 
     return arrx,arry
 
+
+#Admin
+def graph3(data):
+    #Prendo i dati che mi servono
+    prices = []
+    dates = []
+    for d in data:
+        c = d['cart']
+        for sd in c['items'].values():
+            prices.append(sd['item']['price'])
+            dates.append(d['date'])
+    print(prices,dates)
+    integer_map = map(int,prices)
+    integer_prices = list(integer_map)
+    #Filtro quelli uguali
+    current = 0
+    arrx = []
+    arry=[]
+    for t,q in zip(dates,integer_prices):
+            current+=1
+            if t in arrx:
+                index = arrx.index(t)
+                arry[index]= arry[index]+integer_prices[current-1]
+            else:
+                arrx.append(t)
+                arry.append(q)
+    print("Array finale",arrx,arry)
+
+    return arrx,arry
+
+def graph4(data):
+    #Prendo i dati che mi servono
+    extras = []
+
+    for d in data:
+        c = d['cart']
+        extras.append(d['extra'])
+    print(extras)
+
+    #Filtro quelli uguali
+    current = 0
+    arrx = []
+    arry=[]
+    for t in (extras):
+            current+=1
+            if t in arrx:
+                index = arrx.index(t)
+                arry[index]= arry[index]+1
+            else:
+                arrx.append(t)
+    print(arrx,arry)
+
+    return arrx,arry
