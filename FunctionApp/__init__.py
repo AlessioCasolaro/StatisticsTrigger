@@ -16,24 +16,22 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
     
     params = req.params.get('name')
+    user = req.params.get('user')
     print(params)
+    print(user)
     data = query()
-    if not params:
-        print("Graph3")
+    if user == "user":
         arrx,arry = graph3(data)
-        arr2x = 0
-        arr2y = 0
-    elif params == "admin":
+        if params:
+             arr2x,arr2y = graph2(data,params)
+        else:
+            arr2x = 0
+            arr2y = 0
+    elif user == "admin":
         print("Graph Admin")
         arrx,arry = graph(data)
-        arr2x,arr2y = graph4(data)
-    else:
-        print("Graph2")
-        arrx,arry = graph2(data,params)
-        arr2x = 0
-        arr2y = 0
-        
-
+        arr2x,arr2y = graph3(data)
+  
     context = {
         'x': arrx,
         'y': arry,
@@ -75,7 +73,7 @@ def query():
     client.close()
     return data
     
-    
+#admin   
 def graph(data):
     #Prendo i dati che mi servono        
     title = []
