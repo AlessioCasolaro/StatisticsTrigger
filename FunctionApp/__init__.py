@@ -21,7 +21,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     print(user)
     data = query()
     if user == "user":
-        arrx,arry = graph3(data)
+        arrx,arry = graph4(data)
         if params:
             arr2x,arr2y = graph2(data,params)
         else:
