@@ -166,7 +166,8 @@ def graph4(data):
     for d in data:
         c = d['cart']
         if 'extra' in d:
-            extras.append(d['extra'])
+            if d['extra'] != "empty":
+                extras.append(d['extra'])
     print(extras)
 
     #Filtro quelli uguali
