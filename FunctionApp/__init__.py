@@ -44,10 +44,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         'x3': arr3x,
         'y3': arr3y,
         'x4': arr4x,
-        'y4': arr4y,
+        'y4': arr4y
     }
     data = json.dumps(context, indent=4, sort_keys=True, default=str)
-  
+
     return func.HttpResponse(data, status_code=200)
 
 def query():
