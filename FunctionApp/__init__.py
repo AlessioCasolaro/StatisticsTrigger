@@ -23,20 +23,28 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     if user == "user":
         arrx,arry = graph(data)
         arr2x,arr2y = graph4(data)
+        arr3x,arr3y,arr4x,arr4y = 0
        
     elif user == "admin":
         arrx,arry = graph3(data)
+        arr3x,arr3y = graph(data)
+        arr4x,arr4y = graph4(data)
         if params:
             arr2x,arr2y = graph2(data,params)
         else:
             arr2x = 0
             arr2y = 0
+        
     
     context = {
         'x': arrx,
         'y': arry,
         'x2': arr2x,
-        'y2': arr2y
+        'y2': arr2y,
+        'x3': arr3x,
+        'y3': arr3y,
+        'x4': arr4x,
+        'y4': arr4y,
     }
     data = json.dumps(context, indent=4, sort_keys=True, default=str)
   
