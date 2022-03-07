@@ -21,15 +21,16 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     print(user)
     data = query()
     if user == "user":
-        arrx,arry = graph4(data)
+        arrx,arry = graph(data)
+        arr2x,arr2y = graph4(data)
+       
+    elif user == "admin":
+        arrx,arry = graph3(data)
         if params:
             arr2x,arr2y = graph2(data,params)
         else:
             arr2x = 0
             arr2y = 0
-    elif user == "admin":
-        arrx,arry = graph(data)
-        arr2x,arr2y = graph3(data)
     
     context = {
         'x': arrx,
@@ -72,7 +73,7 @@ def query():
     client.close()
     return data
     
-#admin   
+#Utente
 def graph(data):
     #Prendo i dati che mi servono        
     title = []
@@ -99,7 +100,7 @@ def graph(data):
     print(arrx,arry)
     
     return arrx,arry
-   
+#admin
 def graph2(data,params):
     #Prendo i dati che mi servono        
     title = []
