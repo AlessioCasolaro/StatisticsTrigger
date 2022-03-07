@@ -152,7 +152,7 @@ def graph3(data):
             prices.append(sd['item']['price'])
             dates.append(d['date'])
     print(prices,dates)
-    float_map = map(int,prices)
+    float_map = map(float,prices)
     float_prices = list(float_map)
     #Filtro quelli uguali
     current = 0
